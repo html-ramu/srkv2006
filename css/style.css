@@ -26,13 +26,18 @@ html { scroll-behavior: smooth; }
 .gold-text { color: var(--gold); }
 .text-center { text-align: center; }
 
-/* Scroll Progress Bar */
+/* Scroll Progress Bar (Fixed Layout Thrashing) */
 .scroll-progress {
     position: fixed;
-    top: 0; left: 0; width: 0%; height: 4px;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 4px;
     background: var(--gold);
     z-index: 2000;
-    transition: width 0.1s ease;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.1s ease;
 }
 
 /* --- Navigation --- */
@@ -75,7 +80,7 @@ html { scroll-behavior: smooth; }
     box-shadow: -5px 0 15px rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
-    padding-top: 80px; /* Adjusted to fit the close button */
+    padding-top: 80px;
     transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
     list-style: none;
     border-left: 2px solid var(--gold);
@@ -107,7 +112,7 @@ html { scroll-behavior: smooth; }
 /* Desktop Menu Override */
 @media (min-width: 768px) {
     .hamburger { display: none; }
-    .close-menu { display: none; } /* Hide close button on desktop */
+    .close-menu { display: none; }
     .nav-links {
         position: static; width: auto; height: auto;
         background: transparent; box-shadow: none; border: none;
@@ -391,7 +396,7 @@ html { scroll-behavior: smooth; }
 
 /* --- Footer Section (Premium Dark Style) --- */
 .footer {
-    background-color: #0a0a0a; /* Deep dark background matching screenshot */
+    background-color: #0a0a0a;
     color: #d1d5db; 
     padding: 80px 5% 30px;
     font-family: var(--font-body);
@@ -408,7 +413,6 @@ html { scroll-behavior: smooth; }
     padding-bottom: 50px;
 }
 
-/* Forces everything to center on mobile */
 .footer-section {
     flex: 1 1 250px;
     text-align: center; 
@@ -431,7 +435,7 @@ html { scroll-behavior: smooth; }
 
 .footer-desc {
     font-size: 0.95rem;
-    color: #9ca3af; /* Soft gray for readability */
+    color: #9ca3af;
     line-height: 1.8;
     margin-bottom: 25px;
     max-width: 350px;
@@ -497,7 +501,6 @@ html { scroll-behavior: smooth; }
     padding: 0;
 }
 
-/* Stacks icons above text perfectly on mobile */
 .footer-contact li {
     margin-bottom: 25px;
     color: #9ca3af;
@@ -513,6 +516,12 @@ html { scroll-behavior: smooth; }
     font-size: 1.3rem;
 }
 
+/* Replaced inline CSS with this clean class */
+.contact-address {
+    line-height: 1.6;
+    text-align: inherit;
+}
+
 .footer-bottom {
     text-align: center;
     padding-top: 30px;
@@ -525,7 +534,6 @@ html { scroll-behavior: smooth; }
     margin-bottom: 5px;
 }
 
-/* Desktop Alignment Overrides */
 @media (min-width: 768px) {
     .footer-section { text-align: left; }
     
@@ -536,7 +544,6 @@ html { scroll-behavior: smooth; }
     
     .social-icons { justify-content: flex-start; }
     
-    /* Puts icons side-by-side with text on larger screens */
     .footer-contact li {
         align-items: center;
         flex-direction: row;
@@ -550,7 +557,7 @@ html { scroll-behavior: smooth; }
     position: fixed;
     bottom: 30px;
     right: 30px;
-    background-color: #25D366; /* Official WhatsApp Green */
+    background-color: #25D366;
     color: white;
     padding: 10px 20px;
     border-radius: 50px;
@@ -576,15 +583,14 @@ html { scroll-behavior: smooth; }
     line-height: 1;
 }
 
-/* మొబైల్ స్క్రీన్‌ల కోసం (చిన్నగా కనిపించడానికి) */
 @media (max-width: 768px) {
     .floating-whatsapp {
         bottom: 20px;
         right: 20px;
         padding: 12px;
-        border-radius: 50%; /* మొబైల్‌లో రౌండ్‌గా మారుతుంది */
+        border-radius: 50%; 
     }
     .whatsapp-text {
-        display: none; /* మొబైల్‌లో టెక్స్ట్ హైడ్ చేసి, కేవలం ఐకాన్ మాత్రమే చూపిస్తాం */
+        display: none; 
     }
 }

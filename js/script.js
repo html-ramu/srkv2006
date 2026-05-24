@@ -1,20 +1,22 @@
 // Initialize AOS Animations
 AOS.init({ once: true, duration: 1000 });
 
-// 1. Scroll Progress Bar
+// 1. Scroll Progress Bar (Optimized to prevent layout thrashing)
 const scrollProgress = document.getElementById('scroll-progress');
 
 window.addEventListener('scroll', () => {
     const totalScroll = document.documentElement.scrollTop;
     const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scroll = `${totalScroll / windowHeight * 100}%`;
-    scrollProgress.style.width = scroll;
+    // Calculate ratio instead of percentage string
+    const scrollRatio = totalScroll / windowHeight; 
+    // Apply via scaleX for GPU acceleration
+    scrollProgress.style.transform = `scaleX(${scrollRatio})`;
 });
 
 // 2. Hamburger & Mobile Menu Toggle
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('nav-links');
-const closeMenu = document.getElementById('close-menu'); // Grab the new close button
+const closeMenu = document.getElementById('close-menu'); 
 
 // Open menu
 hamburger.addEventListener('click', () => {
