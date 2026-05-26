@@ -55,25 +55,49 @@ const timer = setInterval(() => {
     document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
 }, 1000);
 
-// 4. Gallery Lightbox Logic
+
+// 4. Dynamic Gallery Injector (Generates 61 compressed images instantly)
+const galleryContainer = document.getElementById('dynamic-gallery');
+const totalGalleryImages = 61; // Set exactly to 61
+
+if (galleryContainer) {
+    let galleryHTML = '';
+    
+    for (let i = 1; i <= totalGalleryImages; i++) {
+        // First 5 load instantly, 56 are lazy-loaded
+        const loadingAttribute = (i <= 5) ? '' : 'loading="lazy"';
+        
+        galleryHTML += `
+            <div class="masonry-item">
+                <img src="assets/timeless-memories/img${i}.jpg" alt="SRKV 2006 Reunion Memory ${i}" class="gallery-img" ${loadingAttribute}>
+            </div>
+        `;
+    }
+    
+    // Inject all HTML into the DOM at once
+    galleryContainer.innerHTML = galleryHTML;
+}
+
+// 5. Global Lightbox Logic (Event Delegation)
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
 const closeLightbox = document.querySelector('.close-lightbox');
-const galleryImages = document.querySelectorAll('.gallery-img');
 
-if (galleryImages.length > 0) {
-    galleryImages.forEach(img => {
-        img.addEventListener('click', () => {
-            lightbox.style.display = 'flex';
-            lightboxImg.src = img.src;
-        });
-    });
+// We listen on the document body so dynamically added images still trigger the lightbox
+document.body.addEventListener('click', (e) => {
+    // If they click either a gallery image OR a tribute image
+    if (e.target.classList.contains('gallery-img') || e.target.classList.contains('tribute-img')) {
+        lightbox.style.display = 'flex';
+        lightboxImg.src = e.target.src;
+    }
+});
 
-    closeLightbox.addEventListener('click', () => lightbox.style.display = 'none');
+closeLightbox.addEventListener('click', () => {
+    lightbox.style.display = 'none';
+});
 
-    lightbox.addEventListener('click', (e) => {
-        if (e.target !== lightboxImg) {
-            lightbox.style.display = 'none';
-        }
-    });
-}
+lightbox.addEventListener('click', (e) => {
+    if (e.target !== lightboxImg) {
+        lightbox.style.display = 'none';
+    }
+});
