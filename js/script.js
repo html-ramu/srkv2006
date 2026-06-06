@@ -55,16 +55,15 @@ const timer = setInterval(() => {
     document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
 }, 1000);
 
-
-// 4. Dynamic Gallery Injector (Generates 61 compressed images instantly)
+// 4. Dynamic Gallery Injector (Updated to 187 images)
 const galleryContainer = document.getElementById('dynamic-gallery');
-const totalGalleryImages = 61; // Set exactly to 61
+const totalGalleryImages = 187; // Updated from 61
 
 if (galleryContainer) {
     let galleryHTML = '';
     
     for (let i = 1; i <= totalGalleryImages; i++) {
-        // First 5 load instantly, 56 are lazy-loaded
+        // Images 1-5 load instantly, 6-187 are lazy-loaded
         const loadingAttribute = (i <= 5) ? '' : 'loading="lazy"';
         
         galleryHTML += `
