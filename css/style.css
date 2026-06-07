@@ -287,20 +287,30 @@ html { scroll-behavior: smooth; }
     font-size: 1rem;
 }
 
-/* Masonry Grid */
-.masonry-grid { 
-    column-count: 3; 
-    column-gap: 1.5rem; 
+/* Responsive Grid Gallery (Replaced Masonry) */
+.gallery-container, .masonry-grid { 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
     margin-top: 40px; 
 }
 
 .masonry-item {
-    break-inside: avoid; margin-bottom: 1.5rem;
-    border-radius: 8px; overflow: hidden;
-    cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border-radius: 8px; 
+    overflow: hidden;
+    cursor: pointer; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-.gallery-img { width: 100%; display: block; transition: transform 0.4s ease; }
+.gallery-img { 
+    width: 100%; 
+    height: auto; 
+    object-fit: cover;
+    aspect-ratio: 1 / 1; /* Keeps the grid clean without layout shifts */
+    display: block; 
+    transition: transform 0.4s ease; 
+}
+
 .masonry-item:hover .gallery-img { transform: scale(1.05); }
 
 /* Lightbox Modal */
@@ -384,13 +394,11 @@ html { scroll-behavior: smooth; }
 
 /* --- Mobile Specific Overrides --- */
 @media (max-width: 768px) {
-    .masonry-grid { column-count: 2; }
     .countdown-grid { gap: 1.5rem; }
     .clean-card { padding: 2rem 1rem; }
 }
 
 @media (max-width: 480px) {
-    .masonry-grid { column-count: 1; }
     .time-unit span { font-size: 2rem; }
 }
 
@@ -593,4 +601,31 @@ html { scroll-behavior: smooth; }
     .whatsapp-text {
         display: none; 
     }
+}
+
+/* Load More Button Styles */
+.load-more-wrapper {
+    text-align: center;
+    margin: 30px 0;
+    width: 100%;
+}
+
+.btn-load-more {
+    background-color: var(--gold); /* Updated to match your theme color */
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-load-more:hover {
+    background-color: var(--text-dark);
+}
+
+.btn-load-more.hidden {
+    display: none !important;
 }

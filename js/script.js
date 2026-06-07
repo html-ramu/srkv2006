@@ -55,26 +55,46 @@ const timer = setInterval(() => {
     document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
 }, 1000);
 
-// 4. Dynamic Gallery Injector (Updated to 187 images)
+// --- 4. Timeless Memories Gallery Pagination ---
+// Note: ID changed to 'dynamic-gallery' to match the index.html and masonry wrapper added to preserve CSS layout.
 const galleryContainer = document.getElementById('dynamic-gallery');
-const totalGalleryImages = 187; // Updated from 61
+const loadMoreBtn = document.getElementById('load-more-btn');
 
-if (galleryContainer) {
+const totalImages = 187; // Change this if your total count changes
+const batchSize = 10;
+let currentLoadedCount = 0;
+
+function loadNextBatch() {
     let galleryHTML = '';
+    const endLimit = Math.min(currentLoadedCount + batchSize, totalImages);
     
-    for (let i = 1; i <= totalGalleryImages; i++) {
-        // Images 1-5 load instantly, 6-187 are lazy-loaded
-        const loadingAttribute = (i <= 5) ? '' : 'loading="lazy"';
+    for (let i = currentLoadedCount + 1; i <= endLimit; i++) {
+        // First 5 images load instantly, all others get lazy and async decoding
+        const loadingAttr = i <= 5 ? '' : 'loading="lazy"';
         
         galleryHTML += `
             <div class="masonry-item">
-                <img src="assets/timeless-memories/img${i}.jpg" alt="SRKV 2006 Reunion Memory ${i}" class="gallery-img" ${loadingAttribute}>
+                <img src="assets/timeless-memories/img${i}.jpg" class="gallery-img" alt="SRKV 2006 Memory ${i}" ${loadingAttr} decoding="async">
             </div>
         `;
     }
     
-    // Inject all HTML into the DOM at once
-    galleryContainer.innerHTML = galleryHTML;
+    // Append the new images to the existing gallery (do NOT overwrite innerHTML)
+    galleryContainer.insertAdjacentHTML('beforeend', galleryHTML);
+    currentLoadedCount = endLimit;
+
+    // Hide the button if we've reached the total number of images
+    if (currentLoadedCount >= totalImages) {
+        loadMoreBtn.classList.add('hidden');
+    }
+}
+
+// Initialize the first batch of 10 images on page load
+if (galleryContainer && loadMoreBtn) {
+    loadNextBatch();
+    
+    // Attach click event to the Load More button
+    loadMoreBtn.addEventListener('click', loadNextBatch);
 }
 
 // 5. Global Lightbox Logic (Event Delegation)
